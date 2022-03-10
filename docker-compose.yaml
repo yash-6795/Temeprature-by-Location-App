@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: temperature_data_app_frontend.Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - VUE_APP_API_HOST=localhost
+      - VUE_APP_API_PORT=8081
+  temperature-app-api:
+    build:
+      context: .
+      dockerfile: temperature_data_app_backend.Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - MEMECACHED_SERVICE_HOST=memcached
+      - MEMECACHED_SERVICE_PORT=11211
+  memcached:
+    image: memcached
+    ports:
+      - "11211:11211"
+    command: ["memcached"]
+

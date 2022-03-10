@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "axios": "^0.26.0",
+    "chart.js": "^2.9.4",
+    "vue-axios": "^3.4.1",
+    "vue-chartjs": "^3.5.1"
+  }
+}
