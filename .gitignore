@@ -1,0 +1,7 @@
+venv
+UI/.idea
+UI/eco-app-frontend/dist
+UI/eco-app-frontend/node_modules
+.dockerignore
+.idea
+
