@@ -25,7 +25,6 @@ class TestAPIMain(TestCase):
         self.assertEqual(response.status_code, 200)
 
     @parameterized.expand([
-        "",
         " ",
         "     ",
         "   Dublin"
@@ -35,5 +34,6 @@ class TestAPIMain(TestCase):
     ])
     def test_get_temperature_data_exception(self, location):
         response = self.client.get(f"/temperature/{location}")
+        self.assertEqual(response.json(), {'detail': 'Invalid input, please check the location provided!'})
         self.assertTrue(response.status_code != 200)
 

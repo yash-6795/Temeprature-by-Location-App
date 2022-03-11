@@ -1,10 +1,9 @@
-import os
-
 from fastapi import FastAPI, HTTPException, Path
+from fastapi.exceptions import RequestValidationError
 from data_manager.location_manager import LocationManager
 from data_manager.temperature_manager import TemperatureManager
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 location_manager = LocationManager
@@ -22,6 +21,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exception):
+    return JSONResponse(
+        content={"detail": "Invalid input, please check the location provided!"},
+        status_code=400
+    )
 
 
 def get_geo_coord(location: str) -> tuple[str, str]:
@@ -46,7 +53,7 @@ def get_temperature_data(location: str = Path(
         return resp
     except HTTPException:
         raise
-    except Exception as e:
+    except Exception:
         raise HTTPException(
             status_code=500,
             detail="Unable to serve the request at this moment, please try again "
